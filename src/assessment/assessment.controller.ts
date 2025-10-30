@@ -21,7 +21,7 @@ export class AssessmentController {
 
   @Get(':assessmentId')
   @UseGuards(AuthGuard)
-  getAssessmentById(@Param('assessmentId') assessmentId?: string) {
+  getAssessmentById(@Param('assessmentId') assessmentId: string) {
     return this.assessmentService.getAssessmentById(assessmentId);
   }
 
