@@ -6,6 +6,6 @@ import { AssessmentTemplate } from './entity/assessment.template.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([AssessmentTemplate])],
   providers: [DbService],
-  exports: [DbService], // if other modules need UsersService
+  exports: [DbService], // if other modules need DbService
 })
 export class DbModule {}

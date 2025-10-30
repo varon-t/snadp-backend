@@ -18,10 +18,10 @@ export class DbService {
   }
 
   async findOne(id: number): Promise<AssessmentTemplate> {
-    const user = await this.repo.findOne({ where: { id } });
-    if (!user) {
+    const assessment = await this.repo.findOne({ where: { id } });
+    if (!assessment) {
       throw new NotFoundException(`Assessment #${id} not found`);
     }
-    return user;
+    return assessment;
   }
 }
