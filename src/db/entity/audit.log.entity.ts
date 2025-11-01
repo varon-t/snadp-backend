@@ -5,6 +5,12 @@ export class AuditLogEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column({ nullable: true })
   auditLog: string;
+
+  @Column({ nullable: true })
+  before: string;
+
+  @Column({ nullable: true })
+  after: string;
 }

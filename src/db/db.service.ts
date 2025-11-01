@@ -5,11 +5,16 @@ import { AssessmentTemplate } from './entity/assessment.template.entity';
 
 @Injectable()
 export class DbService {
-  constructor(@InjectRepository(AssessmentTemplate)
+  constructor(
+    @InjectRepository(AssessmentTemplate)
     private readonly repo: Repository<AssessmentTemplate>,
   ) {}
 
   async create(dto: AssessmentTemplate): Promise<AssessmentTemplate> {
+    return this.repo.save(dto);
+  }
+
+  async update(dto: AssessmentTemplate): Promise<AssessmentTemplate> {
     return this.repo.save(dto);
   }
 

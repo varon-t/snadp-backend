@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   UseGuards,
   // Post,
   // Patch,
@@ -33,4 +34,14 @@ export class AssessmentController {
   ) {
     return this.assessmentService.createAssessment(assessmentDto);
   }
+
+  @Put(':assessmentId')
+  @UseGuards(AuthGuard)
+  updateAssessment(
+    @Param('assessmentId') assessmentId: string,
+    @Body() assessmentDto: AssessmentDto,
+  ) {
+    return this.assessmentService.updateAssessment(assessmentDto);
+  }
+
 }

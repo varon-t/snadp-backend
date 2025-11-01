@@ -20,4 +20,13 @@ export class AssessmentService {
     assessmentTemplate.status = assessmentDto.status;
     return this.dbService.create(assessmentTemplate);
   }
+
+  updateAssessment(assessmentDto: AssessmentDto) {
+    const assessmentTemplate = new AssessmentTemplate();
+    assessmentTemplate.id = assessmentDto.id;
+    assessmentTemplate.template = assessmentDto.template;
+    assessmentTemplate.description = assessmentDto.description;
+    assessmentTemplate.status = assessmentDto.status;
+    return this.dbService.update(assessmentTemplate);
+  }
 }

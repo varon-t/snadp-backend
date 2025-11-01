@@ -3,14 +3,12 @@ import {
   EventSubscriber,
   InsertEvent,
   UpdateEvent,
-  RemoveEvent,
-  SoftRemoveEvent,
   Connection,
 } from 'typeorm';
 import { AssessmentTemplate } from '../../db/entity/assessment.template.entity';
 import { Injectable } from '@nestjs/common';
-import { AuditLogService} from '../../db/auditlog.service';
-import { AuditLogEntity} from '../../db/entity/audit.log.entity';
+import { AuditLogService } from '../../db/auditlog.service';
+import { AuditLogEntity } from '../../db/entity/audit.log.entity';
 import { ClsService } from 'nestjs-cls';
 
 @Injectable()
@@ -26,48 +24,56 @@ export class ChangeAuditSubscriber
   }
 
   afterInsert(event: InsertEvent<AssessmentTemplate>) {
-    // if (event.metadata.targetName === AuditLogEntity.name) return;
-
-    // console.log(`ChangeAudit after insertion, ${JSON.stringify(event.entity)}`);
     const entityBefore = event['databaseEntity']; // This will be null since we are creating a new record
     const entityAfter = event.entity;
     const entityType = event.metadata.targetName;
-    // console.log(`entityType ================, ${entityType}`);
     try {
-      // Avoid to create an audit log for itselft to prevent circular loop
       if (entityType === AuditLogEntity.name) return;
 
       const entityId = entityAfter.id;
-      //console.log('clsService', this.clsService);
       const user: string = this.clsService.get('user');
       const auditLog = {
-        authorId: user ? user : null, // The change could be made out of a request context
+        authorId: user ? user : null,
         event: 'insert',
         entityId,
         entityType,
         entityAfter: JSON.stringify(entityAfter),
         entityBefore: JSON.stringify(entityBefore),
       };
-
-      // The auditLogService crate and insert into the audit-log table
-      // You can store your audit logs wherever you want
-      //console.log('Saving audit to audit table');
       const auditLogEntity = new AuditLogEntity();
-      //auditLogEntity.id = assessmentDto.id;
       auditLogEntity.auditLog = JSON.stringify(auditLog);
-
+      auditLogEntity.before = JSON.stringify(entityBefore);
+      auditLogEntity.after = JSON.stringify(entityAfter);
       return this.auditLogService.create(auditLogEntity);
     } catch (error) {
-      // Do something with the error
       console.error(error);
     }
   }
 
-  /*
-  // You can create a method to generalize the logic from the create afterInsert method
-  afterUpdate(event: UpdateEvent<any>) {}
-  afterRemove(event: RemoveEvent<any>) {}
-  afterUpdate(event: SoftRemoveEvent<any>) {}
+  beforeUpdate(event: UpdateEvent<AssessmentTemplate>) {
+    const entityBefore = event.databaseEntity; // The entity with the old values
+    const entityAfter = event.entity; // The entity with the new values
+    const entityType = event.metadata.targetName;
+    try {
+      if (entityType === AuditLogEntity.name) return;
 
-   */
+      const entityId = entityBefore.id;
+      const user: string = this.clsService.get('user');
+      const auditLog = {
+        authorId: user ? user : null,
+        event: 'update',
+        entityId,
+        entityType,
+        entityBefore: JSON.stringify(entityBefore),
+        entityAfter: JSON.stringify(entityAfter),
+      };
+      const auditLogEntity = new AuditLogEntity();
+      auditLogEntity.auditLog = JSON.stringify(auditLog);
+      auditLogEntity.before = JSON.stringify(entityBefore);
+      auditLogEntity.after = JSON.stringify(entityAfter);
+      return this.auditLogService.create(auditLogEntity);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
