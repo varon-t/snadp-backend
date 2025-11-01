@@ -10,7 +10,6 @@ import { PaceModule } from './pace/pace.module';
 import { HttpModule } from '@nestjs/axios';
 import { ChangeAuditSubscriber } from './assessment/subscriber/change.audit.subscriber';
 import { ClsModule } from 'nestjs-cls';
-import { DataSource } from 'typeorm';
 
 @Module({
   imports: [

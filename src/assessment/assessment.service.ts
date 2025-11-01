@@ -6,9 +6,11 @@ import { PaceService } from '../pace/pace.service';
 
 @Injectable()
 export class AssessmentService {
-  constructor(private readonly dbService: DbService, private readonly paceService: PaceService) {}
+  constructor(
+    private readonly dbService: DbService,
+    private readonly paceService: PaceService,
+  ) {}
   getAssessmentById(assessmentId: string) {
-    console.log("Pace Service Invoked ===> " + this.paceService.getData());
     return this.dbService.findOne(+assessmentId);
   }
 

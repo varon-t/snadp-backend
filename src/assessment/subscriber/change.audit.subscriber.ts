@@ -16,7 +16,8 @@ import { ClsService } from 'nestjs-cls';
 export class ChangeAuditSubscriber
   implements EntitySubscriberInterface<AssessmentTemplate>
 {
-  constructor(private readonly connection: Connection,
+  constructor(
+    private readonly connection: Connection,
     private clsService: ClsService,
     private auditLogService: AuditLogService,
   ) {

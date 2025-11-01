@@ -43,5 +43,4 @@ export class AssessmentController {
   ) {
     return this.assessmentService.updateAssessment(assessmentDto);
   }
-
 }
