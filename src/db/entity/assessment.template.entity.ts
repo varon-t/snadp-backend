@@ -9,7 +9,7 @@ export class AssessmentTemplate {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column({ unique: false })
   template: string;
 
   @Column()
@@ -17,4 +17,6 @@ export class AssessmentTemplate {
 
   @Column({ nullable: true })
   status?: string;
+
+  userid: string;
 }

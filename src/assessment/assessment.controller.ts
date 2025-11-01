@@ -26,8 +26,11 @@ export class AssessmentController {
   }
 
   @Post(':assessmentId')
-  createAssessment(@Param('assessmentId') assessmentId: string,
-                   @Body() assessmentDto: AssessmentDto) {
+  @UseGuards(AuthGuard)
+  createAssessment(
+    @Param('assessmentId') assessmentId: string,
+    @Body() assessmentDto: AssessmentDto,
+  ) {
     return this.assessmentService.createAssessment(assessmentDto);
   }
 }

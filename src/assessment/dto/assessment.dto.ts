@@ -8,8 +8,8 @@ export class AssessmentDto {
     message: 'The name is not valid.',
   })
   readonly name: string;
-  readonly id: number;
 
+  readonly id: number;
   readonly template: string;
   readonly description: string;
   readonly status?: string;
