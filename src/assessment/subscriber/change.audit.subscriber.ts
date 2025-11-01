@@ -4,13 +4,13 @@ import {
   InsertEvent,
   UpdateEvent,
   RemoveEvent,
-  SoftRemoveEvent
+  SoftRemoveEvent,
+  Connection,
 } from 'typeorm';
 import { AssessmentTemplate } from '../../db/entity/assessment.template.entity';
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AuditLogService} from '../../db/auditlog.service';
 import { AuditLogEntity} from '../../db/entity/audit.log.entity';
-//import { UserEntity } from 'src/entities/user.entity';
 import { ClsService } from 'nestjs-cls';
 
 @Injectable()
@@ -18,25 +18,27 @@ import { ClsService } from 'nestjs-cls';
 export class ChangeAuditSubscriber
   implements EntitySubscriberInterface<AssessmentTemplate>
 {
-  // Inject some dependencies
-  constructor(
+  constructor(private readonly connection: Connection,
     private clsService: ClsService,
     private auditLogService: AuditLogService,
-  ) {}
-
+  ) {
+    connection.subscribers.push(this); // <---- THIS
+  }
 
   afterInsert(event: InsertEvent<AssessmentTemplate>) {
-    console.log(`AFTER INSERTION, ${JSON.stringify(event.entity)}`);
+    // if (event.metadata.targetName === AuditLogEntity.name) return;
+
+    // console.log(`ChangeAudit after insertion, ${JSON.stringify(event.entity)}`);
     const entityBefore = event['databaseEntity']; // This will be null since we are creating a new record
     const entityAfter = event.entity;
     const entityType = event.metadata.targetName;
-
+    // console.log(`entityType ================, ${entityType}`);
     try {
       // Avoid to create an audit log for itselft to prevent circular loop
       if (entityType === AuditLogEntity.name) return;
 
       const entityId = entityAfter.id;
-      console.log('clsService', this.clsService);
+      //console.log('clsService', this.clsService);
       const user: string = this.clsService.get('user');
       const auditLog = {
         authorId: user ? user : null, // The change could be made out of a request context
@@ -49,7 +51,7 @@ export class ChangeAuditSubscriber
 
       // The auditLogService crate and insert into the audit-log table
       // You can store your audit logs wherever you want
-      console.log('Saved audit to audit table');
+      //console.log('Saving audit to audit table');
       const auditLogEntity = new AuditLogEntity();
       //auditLogEntity.id = assessmentDto.id;
       auditLogEntity.auditLog = JSON.stringify(auditLog);

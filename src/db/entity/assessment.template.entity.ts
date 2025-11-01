@@ -1,10 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity({ name: 'assessment_template'})//, schema: 'snadp_assessment_db' })
+@Entity({ name: 'assessment_template' }) //, schema: 'snadp_assessment_db' })
 export class AssessmentTemplate {
   @PrimaryGeneratedColumn()
   id: number;
@@ -17,6 +13,4 @@ export class AssessmentTemplate {
 
   @Column({ nullable: true })
   status?: string;
-
-  userid: string;
 }

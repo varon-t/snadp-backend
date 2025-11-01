@@ -9,10 +9,8 @@ export class DbService {
     private readonly repo: Repository<AssessmentTemplate>,
   ) {}
 
-  create(dto: AssessmentTemplate) {
-  //async create(dto: AssessmentTemplate): Promise<AssessmentTemplate> {
-    this.repo.insert(dto);
-    //return this.repo.save(dto);
+  async create(dto: AssessmentTemplate): Promise<AssessmentTemplate> {
+    return this.repo.save(dto);
   }
 
   async findAll(): Promise<AssessmentTemplate[]> {

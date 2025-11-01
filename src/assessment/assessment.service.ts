@@ -18,7 +18,6 @@ export class AssessmentService {
     assessmentTemplate.template = assessmentDto.template;
     assessmentTemplate.description = assessmentDto.description;
     assessmentTemplate.status = assessmentDto.status;
-    assessmentTemplate.userid = '';
     return this.dbService.create(assessmentTemplate);
   }
 }

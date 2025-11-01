@@ -1,10 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity({ name: 'audit_log' }) //, schema: 'snadp_assessment_db' })
+@Entity({ name: 'audit_log' })
 export class AuditLogEntity {
   @PrimaryGeneratedColumn()
   id: number;

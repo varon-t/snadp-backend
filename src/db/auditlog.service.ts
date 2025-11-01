@@ -11,7 +11,7 @@ export class AuditLogService {
   ) {}
 
   async create(auditLog: AuditLogEntity): Promise<AuditLogEntity> {
-    console.log(`Creating auditLog ${auditLog.auditLog}`);
+    console.log(`Creating auditLog ===> ${auditLog.auditLog}`);
     return this.repo.save(auditLog);
   }
 }
