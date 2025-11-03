@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AssessmentController } from './assessment/assessment.controller';
 import { AssessmentService } from './assessment/assessment.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,7 +6,7 @@ import { DbModule } from './db/db.module';
 import { PaceService } from './pace/pace.service';
 import { PaceModule } from './pace/pace.module';
 import { HttpModule } from '@nestjs/axios';
-import { ChangeAuditSubscriber } from './assessment/subscriber/change.audit.subscriber';
+import { ChangeAuditSubscriber } from './subscriber/change.audit.subscriber';
 import { ClsModule } from 'nestjs-cls';
 
 @Module({
@@ -35,13 +33,8 @@ import { ClsModule } from 'nestjs-cls';
     PaceModule,
     HttpModule,
   ],
-  controllers: [AppController, AssessmentController],
-  providers: [
-    AppService,
-    AssessmentService,
-    PaceService,
-    ChangeAuditSubscriber,
-  ],
+  controllers: [AssessmentController],
+  providers: [AssessmentService, PaceService, ChangeAuditSubscriber],
 })
 export class AppModule {
   /*

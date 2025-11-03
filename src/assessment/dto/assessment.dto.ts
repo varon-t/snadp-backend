@@ -9,7 +9,7 @@ export class AssessmentDto {
   })
   readonly name: string;
 
-  readonly id: number;
+  readonly id: string;
   readonly template: string;
   readonly description: string;
   readonly status?: string;

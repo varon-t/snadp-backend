@@ -5,11 +5,12 @@ import {
   UpdateEvent,
   Connection,
 } from 'typeorm';
-import { AssessmentTemplate } from '../../db/entity/assessment.template.entity';
+import { AssessmentTemplate } from '../db/entity/assessment.template.entity';
 import { Injectable } from '@nestjs/common';
-import { AuditLogService } from '../../db/auditlog.service';
-import { AuditLogEntity } from '../../db/entity/audit.log.entity';
+import { AuditLogService } from '../db/auditlog.service';
+import { AuditLogEntity } from '../db/entity/audit.log.entity';
 import { ClsService } from 'nestjs-cls';
+import { DbService } from '../db/db.service';
 
 @Injectable()
 @EventSubscriber()
@@ -20,6 +21,7 @@ export class ChangeAuditSubscriber
     private readonly connection: Connection,
     private clsService: ClsService,
     private auditLogService: AuditLogService,
+    private dbService: DbService,
   ) {
     connection.subscribers.push(this); // <---- THIS
   }
@@ -51,14 +53,18 @@ export class ChangeAuditSubscriber
     }
   }
 
-  beforeUpdate(event: UpdateEvent<AssessmentTemplate>) {
+  async beforeUpdate(event: UpdateEvent<AssessmentTemplate>) {
     const entityBefore = event.databaseEntity; // The entity with the old values
     const entityAfter = event.entity; // The entity with the new values
     const entityType = event.metadata.targetName;
+    const entityBefore1 = await this.dbService.findOne(
+      (entityAfter as AssessmentTemplate).id,
+    );
+
     try {
       if (entityType === AuditLogEntity.name) return;
 
-      const entityId = entityBefore.id;
+      const entityId = entityBefore1.id;
       const user: string = this.clsService.get('user');
       const auditLog = {
         authorId: user ? user : null,
@@ -70,7 +76,7 @@ export class ChangeAuditSubscriber
       };
       const auditLogEntity = new AuditLogEntity();
       auditLogEntity.auditLog = JSON.stringify(auditLog);
-      auditLogEntity.before = JSON.stringify(entityBefore);
+      auditLogEntity.before = JSON.stringify(entityBefore1);
       auditLogEntity.after = JSON.stringify(entityAfter);
       return this.auditLogService.create(auditLogEntity);
     } catch (error) {

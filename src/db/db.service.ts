@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { AssessmentTemplate } from './entity/assessment.template.entity';
+//import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class DbService {
@@ -11,18 +12,32 @@ export class DbService {
   ) {}
 
   async create(dto: AssessmentTemplate): Promise<AssessmentTemplate> {
+    //dto.id_1 = uuidv4();
     return this.repo.save(dto);
   }
 
+  /*
   async update(dto: AssessmentTemplate): Promise<AssessmentTemplate> {
     return this.repo.save(dto);
+  }
+  */
+  async update(dto: AssessmentTemplate): Promise<UpdateResult> {
+    return this.repo.update(
+      { id: dto.id }, // Criteria (WHERE clause)
+      {
+        id: dto.id,
+        template: dto.template,
+        description: dto.description,
+        status: dto.status,
+      },
+    );
   }
 
   async findAll(): Promise<AssessmentTemplate[]> {
     return this.repo.find();
   }
 
-  async findOne(id: number): Promise<AssessmentTemplate> {
+  async findOne(id: string): Promise<AssessmentTemplate> {
     const assessment = await this.repo.findOne({ where: { id } });
     if (!assessment) {
       throw new NotFoundException(`Assessment #${id} not found`);

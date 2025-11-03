@@ -11,7 +11,7 @@ export class AssessmentService {
     private readonly paceService: PaceService,
   ) {}
   getAssessmentById(assessmentId: string) {
-    return this.dbService.findOne(+assessmentId);
+    return this.dbService.findOne(assessmentId);
   }
 
   createAssessment(assessmentDto: AssessmentDto) {
