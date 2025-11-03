@@ -1,11 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity({ name: 'audit_log' })
 export class AuditLogEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true })
+  @Column({ name: 'author_id', nullable: true })
+  authorId: string;
+
+  @Column({ name: 'log', nullable: true })
   auditLog: string;
 
   @Column({ nullable: true })
@@ -13,4 +21,7 @@ export class AuditLogEntity {
 
   @Column({ nullable: true })
   after: string;
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: Date;
 }

@@ -75,6 +75,7 @@ export class ChangeAuditSubscriber
         entityAfter: JSON.stringify(entityAfter),
       };
       const auditLogEntity = new AuditLogEntity();
+      auditLogEntity.authorId = user ? user : '';
       auditLogEntity.auditLog = JSON.stringify(auditLog);
       auditLogEntity.before = JSON.stringify(entityBefore1);
       auditLogEntity.after = JSON.stringify(entityAfter);
