@@ -5,12 +5,12 @@ import {
   UpdateEvent,
   Connection,
 } from 'typeorm';
-import { AssessmentTemplate } from '../db/entity/assessment.template.entity';
+import { AssessmentTemplate } from '../dao/entity/assessment.template.entity';
 import { Injectable } from '@nestjs/common';
-import { AuditLogService } from '../db/auditlog.service';
-import { AuditLogEntity } from '../db/entity/audit.log.entity';
+import { AuditLogService } from '../dao/auditlog.service';
+import { AuditLogEntity } from '../dao/entity/audit.log.entity';
 import { ClsService } from 'nestjs-cls';
-import { DbService } from '../db/db.service';
+import { DbService } from '../dao/db.service';
 
 @Injectable()
 @EventSubscriber()

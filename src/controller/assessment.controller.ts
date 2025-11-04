@@ -12,8 +12,8 @@ import {
   // Body,
   //Query,
 } from '@nestjs/common';
-import { AssessmentService } from './assessment.service';
-import { AssessmentDto } from './dto/assessment.dto';
+import { AssessmentService } from '../service/assessment.service';
+import { AssessmentDto } from '../dto/assessment.dto';
 import { AuthGuard } from '../guard/auth.guard';
 
 @Controller('assessment')

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AssessmentController } from './assessment/assessment.controller';
-import { AssessmentService } from './assessment/assessment.service';
+import { AssessmentController } from './controller/assessment.controller';
+import { AssessmentService } from './service/assessment.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DbModule } from './db/db.module';
+import { DbModule } from './dao/db.module';
 import { PaceService } from './pace/pace.service';
 import { PaceModule } from './pace/pace.module';
 import { HttpModule } from '@nestjs/axios';

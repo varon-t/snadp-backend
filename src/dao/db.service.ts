@@ -21,6 +21,7 @@ export class DbService {
     return this.repo.save(dto);
   }
   */
+
   async update(dto: AssessmentTemplate): Promise<UpdateResult> {
     return this.repo.update(
       { id: dto.id }, // Criteria (WHERE clause)

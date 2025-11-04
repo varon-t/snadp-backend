@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { AssessmentDto } from './dto/assessment.dto';
-import { DbService } from '../db/db.service';
-import { AssessmentTemplate } from '../db/entity/assessment.template.entity';
+import { AssessmentDto } from '../dto/assessment.dto';
+import { DbService } from '../dao/db.service';
+import { AssessmentTemplate } from '../dao/entity/assessment.template.entity';
 import { PaceService } from '../pace/pace.service';
 
 @Injectable()
