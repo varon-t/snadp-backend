@@ -1,16 +1,20 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-import { AuthGuard } from './guard/auth.guard';
-import { ExceptionsFilter } from './exception/exceptions.filter';
-import { DetailedLoggingInterceptor } from './interceptor/logging.interceptor';
+import { AssessmentModule } from './modules/assessment.module';
+import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
-  // app.useGlobalGuards(new AuthGuard());
-  app.useGlobalFilters(new ExceptionsFilter());
-  app.useGlobalInterceptors(new DetailedLoggingInterceptor());
-  await app.listen(process.env.PORT ?? 3000);
+  const app = await NestFactory.create(AssessmentModule);
+
+
+    const config = new DocumentBuilder()
+        .setTitle('SNADP API')
+        .setDescription('API documentation')
+        .setVersion('1.0')
+        .build();
+
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
+
+    await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
