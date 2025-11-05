@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -10,14 +11,30 @@ import {
 import { AssessmentService } from '../service/assessment.service';
 import { AssessmentDto } from '../dto/assessment.dto';
 import { AuthGuard } from '../guard/auth.guard';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiException } from '../exception/api-exception.decorator';
+import { BadRequestResponse } from '../dto/error/bad-request.response';
+import { UnauthorizedResponse } from '../dto/error/unauthorized.response';
+import { NotFoundResponse } from '../dto/error/not-found.response';
+import { InternalServerErrorResponse } from '../dto/error/internal-server-error.response';
 
-@ApiTags('assessment') // groups endpoints in Swagger UI
+@ApiTags('assessment')
 @Controller('assessment')
 export class AssessmentController {
   constructor(private readonly assessmentService: AssessmentService) {}
 
-  @ApiResponse({ status: 200, description: 'Get assessment details.' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get assessment details.',
+    type: AssessmentDto,
+  })
+  @ApiException(
+    { status: 400, description: 'Bad Request', model: BadRequestResponse },
+    { status: 401, description: 'Unauthorized', model: UnauthorizedResponse },
+    { status: 404, description: 'User not found', model: NotFoundResponse },
+    { status: 500, description: 'Internal Server Error', model: InternalServerErrorResponse },
+  )
+  @ApiBearerAuth()
   @Get(':assessmentId')
   @UseGuards(AuthGuard)
   getAssessmentById(@Param('assessmentId') assessmentId: string) {
@@ -25,7 +42,18 @@ export class AssessmentController {
   }
 
   @ApiBody({ type: AssessmentDto })
-  @ApiResponse({ status: 201, description: 'Assessment created successfully.' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Assessment created successfully.',
+    type: AssessmentDto,
+  })
+  @ApiException(
+    { status: 400, description: 'Bad Request', model: BadRequestResponse },
+    { status: 401, description: 'Unauthorized', model: UnauthorizedResponse },
+    { status: 404, description: 'User not found', model: NotFoundResponse },
+    { status: 500, description: 'Internal Server Error', model: InternalServerErrorResponse },
+  )
+  @ApiBearerAuth()
   @Post(':assessmentId')
   @UseGuards(AuthGuard)
   createAssessment(
@@ -36,7 +64,17 @@ export class AssessmentController {
   }
 
   @ApiBody({ type: AssessmentDto })
-  @ApiResponse({ status: 201, description: 'Assessment updated successfully.' })
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Assessment updated successfully.',
+  })
+  @ApiException(
+    { status: 400, description: 'Bad Request', model: BadRequestResponse },
+    { status: 401, description: 'Unauthorized', model: UnauthorizedResponse },
+    { status: 404, description: 'User not found', model: NotFoundResponse },
+    { status: 500, description: 'Internal Server Error', model: InternalServerErrorResponse },
+  )
+  @ApiBearerAuth()
   @Put(':assessmentId')
   @UseGuards(AuthGuard)
   updateAssessment(
