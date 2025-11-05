@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AssessmentService } from '../service/assessment.service';
 import { AssessmentDto } from '../dto/assessment.dto';
@@ -17,6 +18,7 @@ import { BadRequestResponse } from '../dto/error/bad-request.response';
 import { UnauthorizedResponse } from '../dto/error/unauthorized.response';
 import { NotFoundResponse } from '../dto/error/not-found.response';
 import { InternalServerErrorResponse } from '../dto/error/internal-server-error.response';
+import { TransformInterceptor } from '../interceptor/transform.interceptor';
 
 @ApiTags('assessment')
 @Controller('assessment')
@@ -37,6 +39,7 @@ export class AssessmentController {
   @ApiBearerAuth()
   @Get(':assessmentId')
   @UseGuards(AuthGuard)
+  @UseInterceptors(new TransformInterceptor(AssessmentDto))
   getAssessmentById(@Param('assessmentId') assessmentId: string) {
     return this.assessmentService.getAssessmentById(assessmentId);
   }
