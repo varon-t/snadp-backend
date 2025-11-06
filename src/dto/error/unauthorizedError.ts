@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { HttpStatus } from '@nestjs/common';
 
-export class UnauthorizedResponse {
+export class UnauthorizedError {
   @ApiProperty({ example: HttpStatus.UNAUTHORIZED })
   statusCode: number;
 

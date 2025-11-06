@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { HttpStatus } from '@nestjs/common';
 
-export class InternalServerErrorResponse {
+export class InternalServerError {
   @ApiProperty({ example: HttpStatus.INTERNAL_SERVER_ERROR })
   statusCode: number;
 

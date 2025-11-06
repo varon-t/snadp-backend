@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { HttpStatus } from '@nestjs/common';
 
-export class BadRequestResponse {
+export class BadRequestError {
   @ApiProperty({ example: HttpStatus.BAD_REQUEST })
   statusCode: number;
 

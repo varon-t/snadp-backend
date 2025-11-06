@@ -35,7 +35,7 @@ async function bootstrap() {
   app.getHttpAdapter().get('/api/json', (req, res) => {
     res.json(document);
   });
-  console.log(`OpenAPI UI available at http://localhost:3000/api/docs`);
+  console.log(`🚀 OpenAPI UI available at http://localhost:3000/api/docs`);
   console.log(`OpenAPI JSON available at http://localhost:3000/api/json`);
   await app.listen(process.env.PORT ?? 3000);
 }
