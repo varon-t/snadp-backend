@@ -10,7 +10,6 @@ import { Injectable } from '@nestjs/common';
 import { AuditLogService } from '../dao/auditlog.service';
 import { AuditLogEntity } from '../dao/entity/audit.log.entity';
 import { ClsService } from 'nestjs-cls';
-import { DbService } from '../dao/db.service';
 
 @Injectable()
 @EventSubscriber()
@@ -21,7 +20,6 @@ export class ChangeAuditSubscriber
     private readonly connection: Connection,
     private clsService: ClsService,
     private auditLogService: AuditLogService,
-    private dbService: DbService,
   ) {
     connection.subscribers.push(this); // <---- THIS
   }
@@ -57,14 +55,11 @@ export class ChangeAuditSubscriber
     const entityBefore = event.databaseEntity; // The entity with the old values
     const entityAfter = event.entity; // The entity with the new values
     const entityType = event.metadata.targetName;
-    const entityBefore1 = await this.dbService.findOne(
-      (entityAfter as AssessmentTemplate).id,
-    );
 
     try {
       if (entityType === AuditLogEntity.name) return;
 
-      const entityId = entityBefore1.id;
+      const entityId = entityBefore.id;
       const user: string = this.clsService.get('user');
       const auditLog = {
         authorId: user ? user : null,
@@ -77,7 +72,7 @@ export class ChangeAuditSubscriber
       const auditLogEntity = new AuditLogEntity();
       auditLogEntity.authorId = user ? user : '';
       auditLogEntity.auditLog = JSON.stringify(auditLog);
-      auditLogEntity.before = JSON.stringify(entityBefore1);
+      auditLogEntity.before = JSON.stringify(entityBefore);
       auditLogEntity.after = JSON.stringify(entityAfter);
       return this.auditLogService.create(auditLogEntity);
     } catch (error) {

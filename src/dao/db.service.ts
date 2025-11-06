@@ -16,21 +16,8 @@ export class DbService {
     return this.repo.save(dto);
   }
 
-  /*
   async update(dto: AssessmentTemplate): Promise<AssessmentTemplate> {
     return this.repo.save(dto);
-  }
-  */
-  async update(dto: AssessmentTemplate): Promise<UpdateResult> {
-    return this.repo.update(
-      { id: dto.id }, // Criteria (WHERE clause)
-      {
-        id: dto.id,
-        template: dto.template,
-        description: dto.description,
-        status: dto.status,
-      },
-    );
   }
 
   async findAll(): Promise<AssessmentTemplate[]> {
