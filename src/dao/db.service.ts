@@ -11,12 +11,16 @@ export class DbService {
     private readonly repo: Repository<AssessmentTemplateEntity>,
   ) {}
 
-  async create(dto: AssessmentTemplateEntity): Promise<AssessmentTemplateEntity> {
+  async create(
+    dto: AssessmentTemplateEntity,
+  ): Promise<AssessmentTemplateEntity> {
     //dto.id_1 = uuidv4();
     return this.repo.save(dto);
   }
 
-  async update(dto: AssessmentTemplateEntity): Promise<AssessmentTemplateEntity> {
+  async update(
+    dto: AssessmentTemplateEntity,
+  ): Promise<AssessmentTemplateEntity> {
     return this.repo.save(dto);
   }
 

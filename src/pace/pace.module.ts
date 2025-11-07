@@ -7,6 +7,5 @@ import { PaceService } from './pace.service';
   imports: [HttpModule],
   providers: [PaceService],
   exports: [PaceService],
-
 })
 export class PaceModule {}

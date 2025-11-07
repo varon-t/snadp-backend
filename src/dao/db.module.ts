@@ -6,7 +6,9 @@ import { AuditLogService } from './auditlog.service';
 import { AuditLogEntity } from './entity/audit.log.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AssessmentTemplateEntity, AuditLogEntity])],
+  imports: [
+    TypeOrmModule.forFeature([AssessmentTemplateEntity, AuditLogEntity]),
+  ],
   providers: [DbService, AuditLogService],
   exports: [DbService, AuditLogService], // if other modules need DbService
 })

@@ -6,6 +6,8 @@ import {
   Post,
   Put,
   UseGuards,
+  HttpCode,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { AssessmentService } from '../service/assessment.service';
 import { AssessmentDto } from '../dto/assessment.dto';
@@ -18,34 +20,36 @@ import {
 } from '../swagger/assessment.swagger.decorators';
 
 @ApiTags('assessment')
+@UseGuards(AuthGuard)
 @Controller('assessment')
 export class AssessmentController {
   constructor(private readonly assessmentService: AssessmentService) {}
 
   @ApiGetAssessmentDocs()
   @Get(':assessmentId')
-  @UseGuards(AuthGuard)
-  getAssessmentById(@Param('assessmentId') assessmentId: string) {
+  async getAssessmentById(
+    @Param('assessmentId', ParseUUIDPipe) assessmentId: string,
+  ): Promise<AssessmentDto | null> {
     return this.assessmentService.getAssessmentById(assessmentId);
   }
 
   @ApiCreateAssessmentDocs()
-  @Post(':assessmentId')
-  @UseGuards(AuthGuard)
-  createAssessment(
-    @Param('assessmentId') assessmentId: string,
+  @Post()
+  @HttpCode(201)
+  async createAssessment(
     @Body() assessmentDto: AssessmentDto,
-  ) {
+  ): Promise<AssessmentDto> {
     return this.assessmentService.createAssessment(assessmentDto);
   }
 
   @ApiUpdateAssessmentDocs()
   @Put(':assessmentId')
-  @UseGuards(AuthGuard)
-  updateAssessment(
-    @Param('assessmentId') assessmentId: string,
+  async updateAssessment(
+    @Param('assessmentId', ParseUUIDPipe) assessmentId: string,
     @Body() assessmentDto: AssessmentDto,
-  ) {
-    return this.assessmentService.updateAssessment(assessmentDto);
+  ): Promise<AssessmentDto> {
+    // merge path id into body DTO to ensure the service receives the correct id
+    const dtoWithId = { ...assessmentDto, id: assessmentId } as AssessmentDto;
+    return this.assessmentService.updateAssessment(dtoWithId);
   }
 }
