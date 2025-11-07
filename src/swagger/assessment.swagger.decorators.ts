@@ -13,7 +13,7 @@ import { UnauthorizedError } from '../dto/error/unauthorized.error';
 import { NotFoundError } from '../dto/error/not-found.error';
 import { InternalServerError } from '../dto/error/internal-server.error';
 
-export function ApiGetUserDocs() {
+export function ApiGetAssessmentDocs() {
   return applyDecorators(
     ApiOperation({
       summary: 'Get assessment by id',
@@ -33,7 +33,7 @@ export function ApiGetUserDocs() {
     ApiException(
       { status: 400, description: 'Bad Request', model: BadRequestError },
       { status: 401, description: 'Unauthorized', model: UnauthorizedError },
-      { status: 404, description: 'User not found', model: NotFoundError },
+      { status: 404, description: 'Not found', model: NotFoundError },
       {
         status: 500,
         description: 'Internal Server Error',
@@ -44,7 +44,7 @@ export function ApiGetUserDocs() {
   );
 }
 
-export function ApiCreateUserDocs() {
+export function ApiCreateAssessmentDocs() {
   return applyDecorators(
     ApiOperation({
       summary: 'Create assessment',
@@ -60,7 +60,7 @@ export function ApiCreateUserDocs() {
     ApiException(
       { status: 400, description: 'Bad Request', model: BadRequestError },
       { status: 401, description: 'Unauthorized', model: UnauthorizedError },
-      { status: 404, description: 'User not found', model: NotFoundError },
+      { status: 404, description: 'Not found', model: NotFoundError },
       {
         status: 500,
         description: 'Internal Server Error',
@@ -91,7 +91,7 @@ export function ApiUpdateAssessmentDocs() {
     ApiException(
       { status: 400, description: 'Bad Request', model: BadRequestError },
       { status: 401, description: 'Unauthorized', model: UnauthorizedError },
-      { status: 404, description: 'User not found', model: NotFoundError },
+      { status: 404, description: 'Not found', model: NotFoundError },
       {
         status: 500,
         description: 'Internal Server Error',

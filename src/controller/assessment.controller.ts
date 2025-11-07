@@ -12,8 +12,8 @@ import { AssessmentDto } from '../dto/assessment.dto';
 import { AuthGuard } from '../guard/auth.guard';
 import { ApiTags } from '@nestjs/swagger';
 import {
-  ApiCreateUserDocs,
-  ApiGetUserDocs,
+  ApiCreateAssessmentDocs,
+  ApiGetAssessmentDocs,
   ApiUpdateAssessmentDocs,
 } from '../swagger/assessment.swagger.decorators';
 
@@ -22,14 +22,14 @@ import {
 export class AssessmentController {
   constructor(private readonly assessmentService: AssessmentService) {}
 
-  @ApiGetUserDocs()
+  @ApiGetAssessmentDocs()
   @Get(':assessmentId')
   @UseGuards(AuthGuard)
   getAssessmentById(@Param('assessmentId') assessmentId: string) {
     return this.assessmentService.getAssessmentById(assessmentId);
   }
 
-  @ApiCreateUserDocs()
+  @ApiCreateAssessmentDocs()
   @Post(':assessmentId')
   @UseGuards(AuthGuard)
   createAssessment(
