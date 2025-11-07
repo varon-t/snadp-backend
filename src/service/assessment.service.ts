@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { AssessmentDto } from '../dto/assessment.dto';
 import { DbService } from '../dao/db.service';
-import { AssessmentTemplate } from '../dao/entity/assessment.template.entity';
 import { PaceService } from '../pace/pace.service';
+import { AssessmentMapper } from '../mapper/assessment.mapper';
 
 @Injectable()
 export class AssessmentService {
@@ -10,25 +10,20 @@ export class AssessmentService {
     private readonly dbService: DbService,
     private readonly paceService: PaceService,
   ) {}
-  getAssessmentById(assessmentId: string) {
-    return this.dbService.findOne(assessmentId);
+  async getAssessmentById(assessmentId: string) {
+    const entity = await this.dbService.findOne(assessmentId);
+    return entity ? AssessmentMapper.toDto(entity) : null;
   }
 
-  createAssessment(assessmentDto: AssessmentDto) {
-    const assessmentTemplate = new AssessmentTemplate();
-    assessmentTemplate.id = assessmentDto.id;
-    assessmentTemplate.template = assessmentDto.template;
-    assessmentTemplate.description = assessmentDto.description;
-    assessmentTemplate.status = assessmentDto.status;
-    return this.dbService.create(assessmentTemplate);
+  async createAssessment(assessmentDto: AssessmentDto) {
+    const entity = AssessmentMapper.toEntity(assessmentDto);
+    const saved = await this.dbService.create(entity);
+    return AssessmentMapper.toDto(saved);
   }
 
-  updateAssessment(assessmentDto: AssessmentDto) {
-    const assessmentTemplate = new AssessmentTemplate();
-    assessmentTemplate.id = assessmentDto.id;
-    assessmentTemplate.template = assessmentDto.template;
-    assessmentTemplate.description = assessmentDto.description;
-    assessmentTemplate.status = assessmentDto.status;
-    return this.dbService.update(assessmentTemplate);
+  async updateAssessment(assessmentDto: AssessmentDto) {
+    const entity = AssessmentMapper.toEntity(assessmentDto);
+    const updated = await this.dbService.update(entity);
+    return AssessmentMapper.toDto(updated);
   }
 }

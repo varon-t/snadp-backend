@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { HttpStatus } from '@nestjs/common';
 
-export class NotFoundResponse {
+export class NotFoundError {
   @ApiProperty({ example: HttpStatus.NOT_FOUND })
   statusCode: number;
 

@@ -5,7 +5,7 @@ import {
   UpdateEvent,
   Connection,
 } from 'typeorm';
-import { AssessmentTemplate } from '../dao/entity/assessment.template.entity';
+import { AssessmentTemplateEntity } from '../dao/entity/assessment.template.entity';
 import { Injectable } from '@nestjs/common';
 import { AuditLogService } from '../dao/auditlog.service';
 import { AuditLogEntity } from '../dao/entity/audit.log.entity';
@@ -15,7 +15,7 @@ import { DbService } from '../dao/db.service';
 @Injectable()
 @EventSubscriber()
 export class ChangeAuditSubscriber
-  implements EntitySubscriberInterface<AssessmentTemplate>
+  implements EntitySubscriberInterface<AssessmentTemplateEntity>
 {
   constructor(
     private readonly connection: Connection,
@@ -26,7 +26,7 @@ export class ChangeAuditSubscriber
     connection.subscribers.push(this); // <---- THIS
   }
 
-  afterInsert(event: InsertEvent<AssessmentTemplate>) {
+  afterInsert(event: InsertEvent<AssessmentTemplateEntity>) {
     const entityBefore = event['databaseEntity']; // This will be null since we are creating a new record
     const entityAfter = event.entity;
     const entityType = event.metadata.targetName;
@@ -53,12 +53,12 @@ export class ChangeAuditSubscriber
     }
   }
 
-  async beforeUpdate(event: UpdateEvent<AssessmentTemplate>) {
+  async beforeUpdate(event: UpdateEvent<AssessmentTemplateEntity>) {
     const entityBefore = event.databaseEntity; // The entity with the old values
     const entityAfter = event.entity; // The entity with the new values
     const entityType = event.metadata.targetName;
     const entityBefore1 = await this.dbService.findOne(
-      (entityAfter as AssessmentTemplate).id,
+      (entityAfter as AssessmentTemplateEntity).id,
     );
 
     try {

@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity({ name: 'assessment_template' }) //, schema: 'snadp_assessment_db' })
-export class AssessmentTemplate {
+export class AssessmentTemplateEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
