@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpStatus,
   Param,
   Post,
   Put,
@@ -11,19 +10,7 @@ import {
 import { AssessmentService } from '../service/assessment.service';
 import { AssessmentDto } from '../dto/assessment.dto';
 import { AuthGuard } from '../guard/auth.guard';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiOperation,
-  ApiParam,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { ApiException } from '../exception/api-exception.decorator';
-import { BadRequestError } from '../dto/error/bad-request.error';
-import { UnauthorizedError } from '../dto/error/unauthorizedError';
-import { NotFoundError } from '../dto/error/not-found.error';
-import { InternalServerError } from '../dto/error/internal-server.error';
+import { ApiTags } from '@nestjs/swagger';
 import {
   ApiCreateUserDocs,
   ApiGetUserDocs,

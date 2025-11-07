@@ -9,7 +9,7 @@ import {
 import { AssessmentDto } from '../dto/assessment.dto';
 import { ApiException } from '../exception/api-exception.decorator';
 import { BadRequestError } from '../dto/error/bad-request.error';
-import { UnauthorizedError } from '../dto/error/unauthorizedError';
+import { UnauthorizedError } from '../dto/error/unauthorized.error';
 import { NotFoundError } from '../dto/error/not-found.error';
 import { InternalServerError } from '../dto/error/internal-server.error';
 
