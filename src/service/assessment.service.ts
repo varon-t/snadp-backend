@@ -19,7 +19,6 @@ export class AssessmentService {
 
     // Fetch entity from DB
     const entity = await this.dbService.findOne(assessmentId);
-
     // Await and log the pace objects; don't let pace failures break this method
     try {
       const paceObjects = await pacePromise;

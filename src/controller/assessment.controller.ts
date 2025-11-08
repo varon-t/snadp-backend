@@ -21,7 +21,7 @@ import {
 
 @ApiTags('assessment')
 @UseGuards(AuthGuard)
-@Controller('assessment')
+@Controller({ path: 'assessment' })
 export class AssessmentController {
   constructor(private readonly assessmentService: AssessmentService) {}
 
